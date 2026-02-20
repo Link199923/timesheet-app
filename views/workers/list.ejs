@@ -1,0 +1,30 @@
+<h1>Workers</h1>
+
+<a href="/workers/new">+ Add Worker</a>
+<br><br>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Trade</th>
+        <th>Rate</th>
+        <th>Actions</th>
+    </tr>
+
+    <% workers.forEach(worker => { %>
+        <tr>
+            <td><%= worker.first_name %> <%= worker.last_name %></td>
+            <td><%= worker.trade %></td>
+            <td>$<%= worker.hourly_rate %></td>
+            <td>
+                <a href="/workers/<%= worker.id %>/edit">Edit</a>
+                <form action="/workers/<%= worker.id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    <% }) %>
+</table>
+
+<br>
+<a href="/">Back to Dashboard</a>

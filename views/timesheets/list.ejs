@@ -1,0 +1,43 @@
+<h1>Timesheets</h1>
+
+<a href="/timesheets/new">+ Add Timesheet</a>
+<br><br>
+
+<table>
+    <tr>
+        <th>Worker</th>
+        <th>Date</th>
+        <th>Project</th>
+        <th>Regular</th>
+        <th>Overtime</th>
+        <th>Total Pay</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    <% timesheets.forEach(t => { %>
+        <tr>
+            <td><%= t.first_name %> <%= t.last_name %></td>
+            <td><%= t.work_date.toISOString().split('T')[0] %></td>
+            <td><%= t.project_name %></td>
+            <td><%= t.regular_hours %></td>
+            <td><%= t.overtime_hours %></td>
+            <td>$<%= t.totalPay.toFixed(2) %></td>
+            <td><%= t.approved ? "Approved" : "Pending" %></td>
+            <td>
+                <% if (!t.approved) { %>
+                    <form action="/timesheets/<%= t.id %>/approve" method="POST" style="display:inline;">
+                        <button type="submit" style="background:#28a745;">Approve</button>
+                    </form>
+                <% } %>
+
+                <form action="/timesheets/<%= t.id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    <% }) %>
+</table>
+
+<br>
+<a href="/">Back to Dashboard</a>

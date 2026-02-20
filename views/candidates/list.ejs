@@ -1,0 +1,35 @@
+<h1>Candidate Pool</h1>
+
+<a href="/candidates/new">+ Add Candidate</a>
+<br><br>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Trade</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    <% candidates.forEach(c => { %>
+        <tr>
+            <td><%= c.first_name %> <%= c.last_name %></td>
+            <td><%= c.trade %></td>
+            <td><%= c.status %></td>
+            <td>
+                <% if (c.status !== 'hired') { %>
+                    <form action="/candidates/<%= c.id %>/hire" method="POST" style="display:inline;">
+                        <button type="submit" style="background:#28a745;">Hire</button>
+                    </form>
+                <% } %>
+
+                <form action="/candidates/<%= c.id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    <% }) %>
+</table>
+
+<br>
+<a href="/">Back to Dashboard</a>

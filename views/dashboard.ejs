@@ -1,0 +1,35 @@
+<h1>Admin Dashboard</h1>
+
+<div class="dashboard-grid">
+
+    <div class="card">
+        <h3>Active Workers</h3>
+        <p><%= totalWorkers %></p>
+    </div>
+
+    <div class="card">
+        <h3>Candidate Pool</h3>
+        <p><%= totalCandidates %></p>
+    </div>
+
+    <div class="card">
+        <h3>Pending Timesheets</h3>
+        <p><%= pendingTimesheets %></p>
+    </div>
+
+    <div class="card">
+        <h3>This Week Regular Hours</h3>
+        <p><%= totalRegularHours %></p>
+    </div>
+
+    <div class="card">
+        <h3>This Week Overtime Hours</h3>
+        <p><%= totalOvertimeHours %></p>
+    </div>
+
+    <div class="card highlight">
+        <h3>This Week Payroll</h3>
+        <p>$<%= parseFloat(totalPayroll).toFixed(2) %></p>
+    </div>
+
+</div>
