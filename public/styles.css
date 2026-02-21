@@ -100,10 +100,10 @@ button:hover {
 }
 
 .card {
-    background: white;
+    background: rgba(255, 255, 255, 0.147);
     padding: 20px;
     border-radius: 8px;
-    border: 1px solid #eee;
+    border: 1px solid #eeeeee1f;
     text-align: center;
 }
 
