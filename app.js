@@ -31,6 +31,8 @@ const { ensureAuthenticated } = require("./middleware/auth");
 // ===============================
 const app = express();
 
+app.set("trust proxy", 1);
+
 // ===============================
 // Session Configuration (Render Safe)
 // ===============================
