@@ -41,16 +41,17 @@ app.use(
     store: new pgSession({
       pool: pool,
       tableName: "user_sessions",
+      createTableIfMissing: true
     }),
-    secret: process.env.SESSION_SECRET || "superSecretDevKey",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production", // true on Render
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 8, // 8 hours
-    },
-  }),
+      maxAge: 1000 * 60 * 60 * 8
+    }
+  })
 );
 
 // ===============================
