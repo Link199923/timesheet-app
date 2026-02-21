@@ -10,7 +10,7 @@ exports.getAllTimesheets = async () => {
             w.overtime_rate
         FROM timesheets t
         JOIN workers w ON t.worker_id = w.id
-        ORDER BY t.work_date DESC
+        ORDER BY t.start_date DESC
     `);
   return result.rows;
 };
@@ -68,10 +68,10 @@ exports.deleteTimesheet = async (id) => {
 };
 
 exports.updateDecision = async (id, status, note) => {
-    await pool.query(
-        `UPDATE candidates 
+  await pool.query(
+    `UPDATE candidates 
          SET status=$1, decision_note=$2
          WHERE id=$3`,
-        [status, note, id]
-    );
+    [status, note, id],
+  );
 };

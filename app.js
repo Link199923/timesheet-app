@@ -95,7 +95,7 @@ app.get("/", async (req, res) => {
             t.overtime_hours * w.overtime_rate) AS total_pay
       FROM timesheets t
       JOIN workers w ON t.worker_id = w.id
-      WHERE t.work_date >= date_trunc('week', CURRENT_DATE)
+      WHERE t.start_date >= date_trunc('week', CURRENT_DATE)
     `);
 
     const pendingResult = await pool.query(

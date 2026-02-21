@@ -19,7 +19,7 @@
     <% timesheets.forEach(t => { %>
         <tr>
             <td><%= t.first_name %> <%= t.last_name %></td>
-            <td><%= t.work_date.toISOString().split('T')[0] %></td>
+            <td><%= t.start_date.toISOString().split('T')[0] %></td>
             <td><%= t.project_name %></td>
             <td><%= t.regular_hours %></td>
             <td><%= t.overtime_hours %></td>
