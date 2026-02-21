@@ -7,11 +7,12 @@ body {
 .container {
     width: 900px;
     margin: 40px auto;
-background: rgba(255,255,255,0.95);
-    padding: 30px;
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.92);
+    padding: 40px;
+    border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
+
 
 h1 {
     margin-bottom: 20px;
@@ -134,16 +135,24 @@ button:hover {
 }
 
 
-body::before {
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+
+    background-color: #f5f6f8;
+
+    background-image: url('/images/logo.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: 700px;
+    opacity: 1;
+}
+
+body::after {
     content: "";
     position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 600px;
-    height: 600px;
-background: url('/images/logo.png') no-repeat center;
-    background-size: contain;
-    opacity: 0.06;
-    transform: translate(-50%, -50%);
-    z-index: -1;
+    inset: 0;
+    background: rgba(255,255,255,0.6);
+    pointer-events: none;
 }
