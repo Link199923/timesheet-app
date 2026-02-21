@@ -12,6 +12,7 @@
         <th>Overtime</th>
         <th>Total Pay</th>
         <th>Status</th>
+        <th>Comment</th>
         <th>Actions</th>
     </tr>
 
@@ -23,17 +24,53 @@
             <td><%= t.regular_hours %></td>
             <td><%= t.overtime_hours %></td>
             <td>$<%= t.totalPay.toFixed(2) %></td>
-            <td><%= t.approved ? "Approved" : "Pending" %></td>
+
+            <!-- STATUS -->
             <td>
-                <% if (!t.approved) { %>
-                    <form action="/timesheets/<%= t.id %>/approve" method="POST" style="display:inline;">
-                        <button type="submit" style="background:#28a745;">Approve</button>
+                <% if (t.status === 'approved') { %>
+                    <span style="color:green;font-weight:bold;">Approved</span>
+                <% } else if (t.status === 'denied') { %>
+                    <span style="color:red;font-weight:bold;">Denied</span>
+                <% } else { %>
+                    <span style="color:orange;font-weight:bold;">Pending</span>
+                <% } %>
+            </td>
+
+            <!-- COMMENT -->
+            <td><%= t.comment || '' %></td>
+
+            <!-- ACTIONS -->
+            <td>
+
+                <!-- EDIT -->
+                <a href="/timesheets/<%= t.id %>/edit">Edit</a>
+
+                <% if (t.status === 'pending') { %>
+
+                    <!-- APPROVE -->
+                    <form action="/timesheets/<%= t.id %>/status" method="POST" style="display:inline;">
+                        <input type="hidden" name="status" value="approved">
+                        <button type="submit" style="background:#28a745;color:white;">
+                            Approve
+                        </button>
                     </form>
+
+                    <!-- DENY -->
+                    <form action="/timesheets/<%= t.id %>/status" method="POST" style="display:inline;">
+                        <input type="hidden" name="status" value="denied">
+                        <input type="text" name="comment" placeholder="Reason" required>
+                        <button type="submit" style="background:#dc3545;color:white;">
+                            Deny
+                        </button>
+                    </form>
+
                 <% } %>
 
+                <!-- DELETE -->
                 <form action="/timesheets/<%= t.id %>?_method=DELETE" method="POST" style="display:inline;">
                     <button type="submit">Delete</button>
                 </form>
+
             </td>
         </tr>
     <% }) %>

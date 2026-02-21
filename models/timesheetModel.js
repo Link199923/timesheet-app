@@ -1,7 +1,7 @@
-const pool = require('../config/db');
+const pool = require("../config/db");
 
 exports.getAllTimesheets = async () => {
-    const result = await pool.query(`
+  const result = await pool.query(`
         SELECT 
             t.*,
             w.first_name,
@@ -12,40 +12,66 @@ exports.getAllTimesheets = async () => {
         JOIN workers w ON t.worker_id = w.id
         ORDER BY t.work_date DESC
     `);
-    return result.rows;
+  return result.rows;
 };
 
 exports.getTimesheetsByWorker = async (worker_id) => {
-    const result = await pool.query(`
+  const result = await pool.query(
+    `
         SELECT * FROM timesheets
         WHERE worker_id = $1
         ORDER BY work_date DESC
-    `, [worker_id]);
+    `,
+    [worker_id],
+  );
 
-    return result.rows;
+  return result.rows;
 };
 
 exports.createTimesheet = async (data) => {
-    const { worker_id, work_date, project_name, regular_hours, overtime_hours } = data;
+  const {
+    worker_id,
+    start_date,
+    end_date,
+    project_name,
+    regular_hours,
+    overtime_hours,
+  } = data;
 
-    await pool.query(
-        `INSERT INTO timesheets
-        (worker_id, work_date, project_name, regular_hours, overtime_hours)
-        VALUES ($1,$2,$3,$4,$5)`,
-        [worker_id, work_date, project_name, regular_hours || 0, overtime_hours || 0]
-    );
+  await pool.query(
+    `INSERT INTO timesheets
+        (worker_id, start_date, end_date, project_name, regular_hours, overtime_hours)
+        VALUES ($1,$2,$3,$4,$5,$6)`,
+    [
+      worker_id,
+      start_date,
+      end_date,
+      project_name,
+      regular_hours || 0,
+      overtime_hours || 0,
+    ],
+  );
 };
 
-exports.approveTimesheet = async (id) => {
-    await pool.query(
-        `UPDATE timesheets SET approved = TRUE WHERE id = $1`,
-        [id]
-    );
+exports.updateStatus = async (id, status, comment = null) => {
+  await pool.query(
+    `UPDATE timesheets 
+     SET status = $1,
+         comment = $2
+     WHERE id = $3`,
+    [status, comment || null, id],
+  );
 };
 
 exports.deleteTimesheet = async (id) => {
+  await pool.query(`DELETE FROM timesheets WHERE id = $1`, [id]);
+};
+
+exports.updateDecision = async (id, status, note) => {
     await pool.query(
-        `DELETE FROM timesheets WHERE id = $1`,
-        [id]
+        `UPDATE candidates 
+         SET status=$1, decision_note=$2
+         WHERE id=$3`,
+        [status, note, id]
     );
 };
