@@ -17,15 +17,6 @@ h1 {
     margin-bottom: 20px;
 }
 
-.nav a {
-    margin-right: 20px;
-    text-decoration: none;
-    color: #007bff;
-}
-
-.nav a:hover {
-    text-decoration: underline;
-}
 
 table {
     width: 100%;
@@ -65,6 +56,50 @@ button:hover {
 
 .navbar a:hover {
     color: #007bff;
+}
+
+.nav a {
+    margin-right: 20px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.nav a:hover {
+    text-decoration: underline;
+}
+
+/* Navbar layout */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* pushes left & right apart */
+    align-items: center;
+    padding: 15px 40px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Left links */
+.nav-left a {
+    margin-right: 25px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Logout button (right side) */
+.nav-right a {
+    text-decoration: none;
+    background-color: #dc3545;   /* red */
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+/* Hover effect */
+.nav-right a:hover {
+    background-color: #b02a37;
 }
 
 .dashboard-grid {
