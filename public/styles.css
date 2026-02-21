@@ -7,7 +7,7 @@ body {
 .container {
     width: 900px;
     margin: 40px auto;
-    background: white;
+background: rgba(255,255,255,0.95);
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.05);
@@ -134,16 +134,16 @@ button:hover {
 }
 
 
- body::before {
+body::before {
     content: "";
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 500px;
-    height: 500px;
-    background: url('Screenshot_2024-08-24_at_8.25.03_AM-removebg-preview.png') no-repeat center;
+    width: 600px;
+    height: 600px;
+    background: url('/images/logo.png') no-repeat center;
     background-size: contain;
-    opacity: 0.05;
+    opacity: 0.06;
     transform: translate(-50%, -50%);
     z-index: -1;
 }
