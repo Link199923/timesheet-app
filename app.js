@@ -41,7 +41,7 @@ app.use(
     store: new pgSession({
       pool: pool,
       tableName: "user_sessions",
-      createTableIfMissing: true
+      createTableIfMissing: true,
     }),
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -49,9 +49,9 @@ app.use(
     cookie: {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 8
-    }
-  })
+      maxAge: 1000 * 60 * 60 * 8,
+    },
+  }),
 );
 
 // ===============================
@@ -99,7 +99,7 @@ app.get("/", async (req, res) => {
     `);
 
     const pendingResult = await pool.query(
-      `SELECT COUNT(*) FROM timesheets WHERE approved = FALSE`,
+      `SELECT COUNT(*) FROM timesheets WHERE status = 'pending'`,
     );
 
     res.render("dashboard", {
