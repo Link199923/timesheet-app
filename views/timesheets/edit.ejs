@@ -6,16 +6,18 @@
     <input 
         type="date" 
         name="start_date" 
-        value="<%= timesheet.start_date.toISOString().split('T')[0] %>" 
-        required
+value="<%= timesheet.start_date ? 
+    new Date(timesheet.start_date).toISOString().split('T')[0] 
+    : '' %>"        required
     >
 
     <label>End Date</label>
     <input 
         type="date" 
         name="end_date" 
-        value="<%= timesheet.end_date.toISOString().split('T')[0] %>" 
-        required
+value="<%= timesheet.end_date ? 
+    new Date(timesheet.end_date).toISOString().split('T')[0] 
+    : '' %>"        required
     >
 
     <label>Project Name</label>
