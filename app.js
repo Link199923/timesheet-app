@@ -1,11 +1,16 @@
 // ===============================
+// Environment Config
+// ===============================
+require("dotenv").config();
+
+// ===============================
 // Core Dependencies
 // ===============================
 const express = require("express");
-const bodyParser = require("body-parser");
+const session = require("express-session");
+const pgSession = require("connect-pg-simple")(session);
 const methodOverride = require("method-override");
 const expressLayouts = require("express-ejs-layouts");
-require("dotenv").config();
 
 // ===============================
 // Database
@@ -18,6 +23,8 @@ const pool = require("./config/db");
 const workerRoutes = require("./routes/workerRoutes");
 const candidateRoutes = require("./routes/candidateRoutes");
 const timesheetRoutes = require("./routes/timesheetRoutes");
+const authRoutes = require("./routes/authRoutes");
+const { ensureAuthenticated } = require("./middleware/auth");
 
 // ===============================
 // App Initialization
@@ -25,37 +32,58 @@ const timesheetRoutes = require("./routes/timesheetRoutes");
 const app = express();
 
 // ===============================
+// Session Configuration (Render Safe)
+// ===============================
+app.use(
+  session({
+    store: new pgSession({
+      pool: pool,
+      tableName: "user_sessions",
+    }),
+    secret: process.env.SESSION_SECRET || "superSecretDevKey",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production", // true on Render
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 8, // 8 hours
+    },
+  }),
+);
+
+// ===============================
 // Middleware Configuration
 // ===============================
-
-// Parse form data
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// Allow PUT & DELETE in forms
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(methodOverride("_method"));
-
-// Serve static files
 app.use(express.static("public"));
 
-// Enable EJS layouts
 app.use(expressLayouts);
 app.set("view engine", "ejs");
 app.set("layout", "layout");
 
 // ===============================
-// Dashboard Route (Dynamic)
+// Register Auth Routes (NOT protected)
+// ===============================
+app.use(authRoutes);
+
+// ===============================
+// Protect Everything After This
+// ===============================
+app.use(ensureAuthenticated);
+
+// ===============================
+// Dashboard Route (Protected)
 // ===============================
 app.get("/", async (req, res) => {
   try {
-    // Total Workers
     const workersResult = await pool.query(`SELECT COUNT(*) FROM workers`);
 
-    // Candidates not hired
     const candidatesResult = await pool.query(
       `SELECT COUNT(*) FROM candidates WHERE status != 'hired'`,
     );
 
-    // Weekly payroll summary
     const weeklyResult = await pool.query(`
       SELECT 
         SUM(t.regular_hours) AS total_regular,
@@ -67,7 +95,6 @@ app.get("/", async (req, res) => {
       WHERE t.work_date >= date_trunc('week', CURRENT_DATE)
     `);
 
-    // Pending timesheets
     const pendingResult = await pool.query(
       `SELECT COUNT(*) FROM timesheets WHERE approved = FALSE`,
     );
@@ -87,7 +114,7 @@ app.get("/", async (req, res) => {
 });
 
 // ===============================
-// Feature Routes
+// Feature Routes (Protected)
 // ===============================
 app.use("/workers", workerRoutes);
 app.use("/candidates", candidateRoutes);
