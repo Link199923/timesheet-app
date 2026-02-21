@@ -1,5 +1,6 @@
-
-
+/* ===========================
+   Layout Container
+=========================== */
 .container {
     width: 900px;
     margin: 40px auto;
@@ -7,14 +8,20 @@
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    position: relative;
+    z-index: 1; /* ensure above watermark */
 }
 
-
+/* ===========================
+   Typography
+=========================== */
 h1 {
     margin-bottom: 20px;
 }
 
-
+/* ===========================
+   Tables
+=========================== */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -26,6 +33,9 @@ th, td {
     text-align: left;
 }
 
+/* ===========================
+   Buttons
+=========================== */
 button {
     background: #dc3545;
     color: white;
@@ -38,44 +48,21 @@ button:hover {
     opacity: 0.9;
 }
 
-.navbar {
-    background: white;
-    padding: 15px 40px;
-    border-bottom: 1px solid #ddd;
-}
-
-.navbar a {
-    margin-right: 20px;
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-}
-
-.navbar a:hover {
-    color: #007bff;
-}
-
-.nav a {
-    margin-right: 20px;
-    text-decoration: none;
-    color: #007bff;
-}
-
-.nav a:hover {
-    text-decoration: underline;
-}
-
-/* Navbar layout */
+/* ===========================
+   Navbar
+=========================== */
 .navbar {
     display: flex;
-    justify-content: space-between; /* pushes left & right apart */
+    justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
     background-color: #f8f9fa;
     border-bottom: 1px solid #ddd;
+    position: relative;
+    z-index: 1; /* ensure above watermark */
 }
 
-/* Left links */
+/* Left nav links */
 .nav-left a {
     margin-right: 25px;
     text-decoration: none;
@@ -83,10 +70,14 @@ button:hover {
     font-weight: 500;
 }
 
-/* Logout button (right side) */
+.nav-left a:hover {
+    color: #007bff;
+}
+
+/* Logout button */
 .nav-right a {
     text-decoration: none;
-    background-color: #dc3545;   /* red */
+    background-color: #dc3545;
     color: white;
     padding: 8px 16px;
     border-radius: 6px;
@@ -94,11 +85,13 @@ button:hover {
     transition: 0.2s ease;
 }
 
-/* Hover effect */
 .nav-right a:hover {
     background-color: #b02a37;
 }
 
+/* ===========================
+   Dashboard Cards
+=========================== */
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -130,43 +123,28 @@ button:hover {
     border: 1px solid #007bff;
 }
 
-
-
+/* ===========================
+   GLOBAL WATERMARK
+=========================== */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f5f6f8;
-    background-image: url('/images/logo.png');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed;
-    background-size: 700px;
-    opacity: 1;
     position: relative;
-    z-index: 0;
 }
 
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(255,255,255,0.6);
-    pointer-events: none;
-}
-
-
+/* Watermark Layer */
 body::before {
     content: "";
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 700px;
-    height: 700px;
+    width: 1000px;              /* increase size if needed */
+    height: 1000px;
     background: url('/images/logo.png') no-repeat center;
     background-size: contain;
-    opacity: 0.07;/* controls watermark strength */
-    filter: blur(1px); 
+    opacity: 0.12;              /* increase to 0.15 if you want stronger */
     transform: translate(-50%, -50%);
     pointer-events: none;
-    z-index: -1;
+    z-index: 0;
 }
